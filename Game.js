@@ -1,7 +1,7 @@
 class Game {
     constructor(idle, idleRight, leftWalk, rightWalk, backdrop1, backdrop2, idleMush, 
       mushSprout, mushPulse, open, emptyTree, mushSound, backSound, tunnel1, tunnel2, sleepHedge, madHedge, drip,
-      hedgeDrink, hedgePee, blanket){
+      hedgeDrink, hedgePee, blanket, branchArray, pond1, pond2){
     this.player = null
     this.levels = []
     this.level = null
@@ -32,6 +32,10 @@ class Game {
     this.hedgePee = hedgePee
     this.drip = drip
     this.blanket = blanket
+    this.branchArray = branchArray
+
+    this.pond1 = pond1
+    this.pond2 = pond2
   }
   
   init(){
@@ -51,7 +55,9 @@ class Game {
                                 this.sleepHedge, this.madHedge,
                                 this.canvasWidth, this.canvasHeight,
                                 this.imgSize, this.drip, this.hedgeDrink, 
-                                this.hedgePee, this.blanket)
+                                this.hedgePee, this.blanket, this.branchArray)
+
+    this.levels[2] = new Level3(this.pond1, this.pond2)
 
     this.levels[0].init()
     //this.levels[1].init(this.player)

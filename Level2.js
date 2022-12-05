@@ -1,7 +1,7 @@
 class Level2 {
   constructor(tunnel1, tunnel2, sleepHedge, madHedge,
               canvasWidth, canvasHeight, imgSize, drip,
-              hedgeDrink, hedgePee, blanket) {
+              hedgeDrink, hedgePee, blanket, branchArray) {
     this.lines = []
     this.anchors = []
     this.tunnel1 = tunnel1
@@ -15,7 +15,7 @@ class Level2 {
     this.madHedgeCount = 0
     this.hatFound = false
     this.hasBlanket = false
-    this.root = false
+    this.root = true
     this.drip = drip
     this.dripCount = 0
     this.hedgeDrink = hedgeDrink
@@ -25,9 +25,19 @@ class Level2 {
     this.inUse = false
     this.time = true
     this.branchCount = 0
+    this.branchArray = branchArray
+    this.branchStatic1 = this.branchArray[0]
+    this.branchStatic2 = this.branchArray[1]
+    this.branchStatic3 = this.branchArray[2]
+    this.branchGrow1 = this.branchArray[3]
+    this.branchGrow2 = this.branchArray[4]
+    this.branchGrow3 = this.branchArray[5]
+    this.branchFrameCount = 0
+    this.nextLevel = false
   }
     
   init(player) {
+    //console.log(this.branchArray)
     player.reposition(1350, 10, player.rotationValue)
     scroll.x = 1000
     scroll.y = 0
@@ -55,6 +65,7 @@ class Level2 {
   }
   
   render() {
+    //console.log(this.branchCount)
     image(this.tunnel1, 700, 0)
     image(this.tunnel2, 0, 0)
     image(this.sleepHedge[floor(this.sleepHedgeCount) %
@@ -66,14 +77,20 @@ class Level2 {
 
     this.blanketOnHedge()
     this.soothMadHedge()
+    this.mouseClickedPee()
+    this.branchCounter()
+    this.mouseClicked()
+    this.branchGrowing()
 
   }
 
   update(player) {
+    this.reachedEnd(player)
     this.sleepHedgeCount += 0.05
     this.hedgeDrinkCount += 0.1
     this.madHedgeCount += 0.15
     this.dripCount += 0.15
+    this.branchFrameCount += 0.15
     this.lines.forEach(line => {
       let theta = 0
       const up = createVector(0, 1)
@@ -106,10 +123,18 @@ class Level2 {
 
   mouseClickedPee() {
     if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && mouseIsPressed) {
-      this.branchCount ++
       return true;
     } else {
       return false
+    }
+  }
+
+  mouseClicked() {
+    return true
+  }
+  branchCounter() {
+    if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && this.mouseClicked()) {
+      this.branchCount ++
     }
   }
 
@@ -162,40 +187,48 @@ class Level2 {
 
   branchGrowing() {
     if (!this.mouseClickedPee()) {
-      if (this.branchCount == 0) { {}
+      image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
+        this.hedgeDrink.length], 250, 400, 100, 100)
+
+      if (this.branchCount == 0) {
+        image(this.branchGrow1[0], 200, 250, 300, 250)
+
       } else if (this.banchCount == 1) {
-        // first static branch image
-        image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
-          this.hedgeDrink.length], 250, 400, 100, 100)
+        image(this.branchStatic1, 200, 250, 300, 250)
 
       } else if (this.branchCount == 2) {
-          // second static branch image
-          image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
-            this.hedgeDrink.length], 250, 400, 100, 100)
-
-      } else if (this.branchCount == 3) {
-          // third static branch image
-          image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
-            this.hedgeDrink.length], 250, 400, 100, 100)
+        image(this.branchStatic2, 200, 250, 300, 250)
 
       } else {
-        image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
-          this.hedgeDrink.length], 250, 400, 100, 100)
+        image(this.branchStatic3, 200, 250, 300, 250)
       }
 
     } else {
       image(this.hedgePee[floor(this.hedgeDrinkCount) %
         this.hedgePee.length], 250, 400, 100, 100)
-      // hedgeHog peeing
+      
       if (this.branchCount == 1) {
-    
+        image(this.branchGrow1[floor(this.branchFrameCount) %
+          this.branchGrow1.length], 200, 250, 300, 250)
+
       } else if (this.branchCount == 2) {
+        image(this.branchGrow2[floor(this.branchFrameCount) %
+          this.branchGrow2.length], 200, 250, 300, 250)
 
       } else if (this.branchCount == 3) {
+        image(this.branchGrow3[floor(this.branchFrameCount) %
+          this.branchGrow3.length], 200, 250, 300, 250)
 
       } else {
-
+        console.log('nothing')
       }
+    }
+  }
+
+
+  reachedEnd(player) {
+    if (player.pos.x < 50 && player.pos.y < 50) {
+      this.nextLevel = true
     }
   }
 

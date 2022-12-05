@@ -19,6 +19,14 @@ let tunnel2
 let blanket
 let drippy
 let drip = []
+let branchStatic1, branchStatic2, branchStatic3
+let grow1, grow2, grow3
+let branchGrow1 = []
+let branchGrow2 = []
+let branchGrow3 = []
+let branchArray = []
+
+let pond1, pond2
 
 let origImgSize = 100
 let imgSize = 150
@@ -71,6 +79,15 @@ function preload() {
   tunnel = loadImage('landscapes/tunnelLevel.png')
   tunnel2 = loadImage('landscapes/tunnel2.png')
   drippy = loadImage('landscapes/drip.png')
+  branchStatic1 = loadImage('branch/branchStatic1.png')
+  branchStatic2 = loadImage('branch/branchStatic2.png')
+  branchStatic3 = loadImage('branch/branchStatic3.png')
+  grow1 = loadImage('branch/branchGrow1.png')
+  grow2 = loadImage('branch/branchGrow2.png')
+  grow3 = loadImage('branch/branchGrow3.png')
+
+  pond1 = loadImage('level3Images/level3-1.png')
+  pond2 = loadImage('level3Images/level3-2.png')
 }
 
 function startGame(){
@@ -120,6 +137,13 @@ function startGame(){
   for (let i = 0; i < 6; i ++) {
     hedgePee[i] = peeHedge.get(i * origImgSize, 0, origImgSize, origImgSize)
   }
+
+  // branch stuff
+  for (let i = 0; i < 20; i ++) {
+    branchGrow1[i] = grow1.get(i * 300, 0, 300, 250)
+    branchGrow2[i] = grow2.get(i * 300, 0, 300, 250)
+    branchGrow3[i] = grow3.get(i * 300, 0, 300, 250)
+  }
   
 
   for (let i = 0; i < 21; i ++) {
@@ -127,11 +151,18 @@ function startGame(){
   }
   
 
+  branchArray[0] = branchStatic1
+  branchArray[1] = branchStatic2
+  branchArray[2] = branchStatic3
+  branchArray[3] = branchGrow1
+  branchArray[4] = branchGrow2
+  branchArray[5] = branchGrow3
   // creating and initializing a new game
   game = new Game(idle, idleRight, leftWalk, rightWalk, 
                   murky, murky2, idleMush, mushSprout, mushPulse, open,
                   emptyTree, mushSound, backSound, tunnel, tunnel2,
-                  sleepHedge, madHedge, drip, hedgeDrink, hedgePee, blanket)
+                  sleepHedge, madHedge, drip, hedgeDrink, hedgePee, blanket, branchArray,
+                  pond1, pond2)
   game.init()
   loop()
 }
