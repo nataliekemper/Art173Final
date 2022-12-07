@@ -1,13 +1,16 @@
 class Level2 {
-  constructor(tunnel1, tunnel2, sleepHedge, madHedge,
+  constructor(tunnel1, tunnel2, sleepHedge, sleepHedge2, madHedge,
               canvasWidth, canvasHeight, imgSize, drip,
-              hedgeDrink, hedgePee, blanket, branchArray) {
+              hedgeDrink, hedgePee, blanket, branchArray,
+              sleepMadHedge) {
     this.lines = []
     this.anchors = []
     this.tunnel1 = tunnel1
     this.tunnel2 = tunnel2
     this.sleepHedge = sleepHedge
+    this.sleepHedge2 = sleepHedge2
     this.madHedge = madHedge
+    this.sleepMadHedge = sleepMadHedge
     this.canvasWidth = canvasWidth
     this.canvasHeight = canvasHeight
     this.imgSize = imgSize
@@ -34,6 +37,8 @@ class Level2 {
     this.branchGrow3 = this.branchArray[5]
     this.branchFrameCount = 0
     this.nextLevel = false
+
+    this.branchHedge = null
   }
     
   init(player) {
@@ -42,6 +47,9 @@ class Level2 {
     scroll.x = 1000
     scroll.y = 0
     player.dir = -1
+
+    this.branchHedge = new PeeingHedge(this.hedgeDrink, this.hedgePee, 100, this.branchGrow1, this.branchGrow2, this.branchGrow3,
+      this.branchStatic1, this.branchStatic2, this.branchStatic3)
     
     this.lines[0] = new Line(0, 1365, 0, 1326, 70)
     this.lines[1] = new Line(1, 1326, 70, 1257, 205)
@@ -65,27 +73,34 @@ class Level2 {
   }
   
   render() {
-    //console.log(this.branchCount)
+    console.log(this.branchHedge.numClicked)
     image(this.tunnel1, 700, 0)
     image(this.tunnel2, 0, 0)
     image(this.sleepHedge[floor(this.sleepHedgeCount) %
       this.sleepHedge.length], 
       860, 74, 100, 100)
+    image(this.sleepHedge2[floor(this.sleepHedgeCount) %
+      this.sleepHedge2.length], 
+      400, 85, 100, 100)
     image(this.drip[floor(this.dripCount) %
       this.drip.length], 
       200, 300, 150, 200)
 
     this.blanketOnHedge()
     this.soothMadHedge()
-    this.mouseClickedPee()
-    this.branchCounter()
-    this.mouseClicked()
-    this.branchGrowing()
+
+    //this.branchHedge.mouseClickedPee()
+    this.branchHedge.render()
+    //this.branchHedge.mousePressed(mouseX, mouseY)
+    //this.mouseClickedPee()
+    //this.branchCounter()
+    //this.branchGrowing()
 
   }
 
   update(player) {
     this.reachedEnd(player)
+    this.branchHedge.update()
     this.sleepHedgeCount += 0.05
     this.hedgeDrinkCount += 0.1
     this.madHedgeCount += 0.15
@@ -121,19 +136,16 @@ class Level2 {
   }
 
 
-  mouseClickedPee() {
-    if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && mouseIsPressed) {
-      return true;
-    } else {
-      return false
-    }
-  }
+  // mouseClickedPee() {
+  //   if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && mouseIsPressed) {
+  //     return true;
+  //   } else {
+  //     return false
+  //   }
+  // }
 
-  mouseClicked() {
-    return true
-  }
   branchCounter() {
-    if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && this.mouseClicked()) {
+    if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && this.mouseReleased()) {
       this.branchCount ++
     }
   }
@@ -180,8 +192,8 @@ class Level2 {
         this.hedgeDrink.length], 788, 320, 130, 130)
     } else {
       //console.log('sleeping now')
-      image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
-        this.hedgeDrink.length], 788, 320, 130, 130)
+      image(this.sleepMadHedge[floor(this.sleepHedgeCount) %
+        this.sleepMadHedge.length], 788, 320, 130, 130)
     }
   }
 
@@ -231,6 +243,8 @@ class Level2 {
       this.nextLevel = true
     }
   }
+
+
 
 
 

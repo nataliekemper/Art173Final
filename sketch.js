@@ -7,13 +7,15 @@ let mushIdle
 let mushSprout = []
 let mushPulse = []
 
-let sleepHedgeSprite
-let madHedgeSprite
+let sleepHedgeSprite, sleepHedgeSprite2
+let madHedgeSprite, sleepMadHedgeSprite
 let peeHedge, drinkHedge
 let hedgePee = []
 let hedgeDrink = []
 let sleepHedge = []
+let sleepHedge2 = []
 let madHedge = []
+let sleepMadHedge = []
 let tunnel
 let tunnel2
 let blanket
@@ -67,10 +69,12 @@ function preload() {
   pulseMush = loadImage('mushroom/mushPulse.png')
   
   sleepHedgeSprite = loadImage('hedgeImage/SleepingHedgeSprite.png')
+  sleepHedgeSprite2 = loadImage('hedgeImage/sleepHedge2.png')
   madHedgeSprite = loadImage('hedgeImage/madHedgeSprite.png')
   peeHedge = loadImage('hedgeImage/hedgePee.png')
   drinkHedge = loadImage('hedgeImage/hedgeDrink.png')
   blanket = loadImage('hedgeImage/blanket.png')
+  sleepMadHedgeSprite = loadImage('hedgeImage/sleepMadHedge.png')
 
   startScreen  = loadImage('landscapes/startScreen.png')
   endScreen  = loadImage('benjaminImages/endScreen.png')
@@ -131,6 +135,7 @@ function startGame(){
   // these 4 loops load the hedge sprites
   for (let i = 0; i < 6; i ++) {
     sleepHedge[i] = sleepHedgeSprite.get(i * origImgSize, 0, origImgSize, origImgSize)
+    sleepHedge2[i] = sleepHedgeSprite2.get(i * origImgSize, 0, origImgSize, origImgSize)
   }
   for (let i = 0; i < 15; i ++) {
     madHedge[i] = madHedgeSprite.get(i * origImgSize, 0, origImgSize, origImgSize)
@@ -141,6 +146,10 @@ function startGame(){
   for (let i = 0; i < 6; i ++) {
     hedgePee[i] = peeHedge.get(i * origImgSize, 0, origImgSize, origImgSize)
   }
+  for (let i = 0; i < 4; i ++) {
+    sleepMadHedge[i] = sleepMadHedgeSprite.get(i * origImgSize, 0, origImgSize, origImgSize)
+  }
+
 
   // branch stuff
   for (let i = 0; i < 20; i ++) {
@@ -172,7 +181,7 @@ function startGame(){
   game = new Game(idle, idleRight, leftWalk, rightWalk, 
                   murky, murky2, idleMush, mushSprout, mushPulse, open,
                   emptyTree, mushSound, backSound, tunnel, tunnel2,
-                  sleepHedge, madHedge, drip, hedgeDrink, hedgePee, blanket, branchArray,
+                  sleepHedge, sleepHedge2, madHedge, drip, hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray,
                   pond1, pond2, fish, fishKey)
   game.init()
   loop()
@@ -276,6 +285,17 @@ function mouseClicked() {
     return true;
   } else {
     return false
+  }
+}
+
+function mousePressed() {
+  if (game) {
+    if (game.currentLevel == 1) {
+      if (game.level.branchHedge.checkClick(mouseX, mouseY)) {
+        game.level.branchHedge.numClicked += 1
+        game.level.branchHedge.branchFrameCount = 0
+      }
+    }
   }
 }
 

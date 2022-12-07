@@ -1,7 +1,7 @@
 class Game {
     constructor(idle, idleRight, leftWalk, rightWalk, backdrop1, backdrop2, idleMush, 
-      mushSprout, mushPulse, open, emptyTree, mushSound, backSound, tunnel1, tunnel2, sleepHedge, madHedge, drip,
-      hedgeDrink, hedgePee, blanket, branchArray, pond1, pond2, fish, fishKey){
+      mushSprout, mushPulse, open, emptyTree, mushSound, backSound, tunnel1, tunnel2, sleepHedge, sleepHedge2, madHedge, drip,
+      hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray, pond1, pond2, fish, fishKey){
     this.player = null
     this.levels = []
     this.level = null
@@ -24,9 +24,12 @@ class Game {
     this.gameWon = false
     this.mushSound = mushSound
     this.backSound = backSound
+
     this.tunnel1 = tunnel1
     this.tunnel2 = tunnel2
     this.sleepHedge = sleepHedge
+    this.sleepHedge2 = sleepHedge2
+    this.sleepMadHedge = sleepMadHedge
     this.madHedge = madHedge
     this.hedgeDrink = hedgeDrink
     this.hedgePee = hedgePee
@@ -54,10 +57,11 @@ class Game {
                                 this.mushSound)
     
     this.levels[1] = new Level2(this.tunnel1, this.tunnel2,
-                                this.sleepHedge, this.madHedge,
+                                this.sleepHedge, this.sleepHedge2, this.madHedge,
                                 this.canvasWidth, this.canvasHeight,
                                 this.imgSize, this.drip, this.hedgeDrink, 
-                                this.hedgePee, this.blanket, this.branchArray)
+                                this.hedgePee, this.blanket, this.branchArray,
+                                this.sleepMadHedge)
 
     this.levels[2] = new Level3(this.pond1, this.pond2, this.fish, this.fishKey)
 
