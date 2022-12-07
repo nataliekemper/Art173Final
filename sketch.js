@@ -26,7 +26,9 @@ let branchGrow2 = []
 let branchGrow3 = []
 let branchArray = []
 
-let pond1, pond2
+let pond1, pond2, fishy, fishyKey
+let fish = []
+let fishKey = []
 
 let origImgSize = 100
 let imgSize = 150
@@ -88,6 +90,8 @@ function preload() {
 
   pond1 = loadImage('level3Images/level3-1.png')
   pond2 = loadImage('level3Images/level3-2.png')
+  fishy = loadImage('level3Images/fish.png')
+  fishyKey = loadImage('level3Images/fishKey.png')
 }
 
 function startGame(){
@@ -149,6 +153,13 @@ function startGame(){
   for (let i = 0; i < 21; i ++) {
     drip[i] = drippy.get(i * 150, 0, 150, 200)
   }
+
+  for (let i = 0; i < 6; i ++) {
+    fish[i] = fishy.get(i * 200, 0, 200, 200)
+  }
+  for (let i = 0; i < 6; i ++) {
+    fishKey[i] = fishyKey.get(i * 200, 0, 200, 200)
+  }
   
 
   branchArray[0] = branchStatic1
@@ -162,7 +173,7 @@ function startGame(){
                   murky, murky2, idleMush, mushSprout, mushPulse, open,
                   emptyTree, mushSound, backSound, tunnel, tunnel2,
                   sleepHedge, madHedge, drip, hedgeDrink, hedgePee, blanket, branchArray,
-                  pond1, pond2)
+                  pond1, pond2, fish, fishKey)
   game.init()
   loop()
 }

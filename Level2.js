@@ -169,7 +169,7 @@ class Level2 {
           788, 320, 130, 130)
       image(this.blanket, 1075, 205)
     } else if (this.inUse && !this.hasBlanket) {
-      noCursor()
+      //noCursor()
       image(this.blanket, mouseX + 665, mouseY - 25)
       image(this.madHedge[floor(this.madHedgeCount) %
         this.madHedge.length], 

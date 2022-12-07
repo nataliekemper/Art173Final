@@ -1,7 +1,7 @@
 class Game {
     constructor(idle, idleRight, leftWalk, rightWalk, backdrop1, backdrop2, idleMush, 
       mushSprout, mushPulse, open, emptyTree, mushSound, backSound, tunnel1, tunnel2, sleepHedge, madHedge, drip,
-      hedgeDrink, hedgePee, blanket, branchArray, pond1, pond2){
+      hedgeDrink, hedgePee, blanket, branchArray, pond1, pond2, fish, fishKey){
     this.player = null
     this.levels = []
     this.level = null
@@ -36,6 +36,8 @@ class Game {
 
     this.pond1 = pond1
     this.pond2 = pond2
+    this.fish = fish
+    this.fishKey = fishKey
   }
   
   init(){
@@ -57,7 +59,7 @@ class Game {
                                 this.imgSize, this.drip, this.hedgeDrink, 
                                 this.hedgePee, this.blanket, this.branchArray)
 
-    this.levels[2] = new Level3(this.pond1, this.pond2)
+    this.levels[2] = new Level3(this.pond1, this.pond2, this.fish, this.fishKey)
 
     this.levels[0].init()
     //this.levels[1].init(this.player)
@@ -75,7 +77,7 @@ class Game {
   render(){
     if (this.level.hatFound) {
       this.gameWon = true
-      this.level.render()
+      this.level.render(this.player)
       this.player.render()
       this.fadeColor = color(17, 14, 26);
       this.fadeColor.setAlpha(128 + 128 * sin(millis() /
@@ -84,6 +86,15 @@ class Game {
       rect(0, 0, 1400, 500);
     } else if (this.level.nextLevel) {
       this.nextLevel()
+    } else if (this.currentLevel == 2) {
+      //console.log(this.level.miniGame)
+      if (this.level.playingMiniGame) {
+        this.level.miniGame.render()
+        this.level.miniGame.update()
+      } else {
+        this.level.render(this.player)
+        this.player.render()
+      }
     } else {
       this.level.render(this.player)
       this.player.render()
