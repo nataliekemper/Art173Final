@@ -2,7 +2,7 @@ class Game {
     constructor(idle, idleRight, leftWalk, rightWalk, backdrop1, backdrop2, idleMush, 
       mushSprout, mushPulse, open, emptyTree, mushSound, backSound, tunnel1, tunnel2, sleepHedge, sleepHedge2, madHedge, drip,
       hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray, pond1, pond2, fish, fishKey, waterRipple, waterShadow,
-      waterMove, bunnyStuff){
+      waterMove, bunnyStuff, sounds){
     this.player = null
     this.levels = []
     this.level = null
@@ -22,7 +22,7 @@ class Game {
     this.canvasHeight = 500
     this.imgSize = 150
     this.fadeColor = null
-    this.gameWon = false
+    this.won = false
     this.mushSound = mushSound
     this.backSound = backSound
 
@@ -47,6 +47,9 @@ class Game {
     this.waterMove = waterMove
     this.waterCount = 0
     this.bunnyStuff = bunnyStuff
+
+    this.sounds = sounds
+    this.peeSound = this.sounds[0]
   }
   
   init(){
@@ -67,7 +70,7 @@ class Game {
                                 this.canvasWidth, this.canvasHeight,
                                 this.imgSize, this.drip, this.hedgeDrink, 
                                 this.hedgePee, this.blanket, this.branchArray,
-                                this.sleepMadHedge)
+                                this.sleepMadHedge, this.peeSound)
 
     this.levels[2] = new Level3(this.pond1, this.pond2, this.fish, this.fishKey, 
                                 this.waterRipple, this.waterShadow,  this.bunnyStuff)
@@ -86,24 +89,23 @@ class Game {
   
   
   render(){
-    if (this.level.hatFound) {
-      this.gameWon = true
-      this.level.render(this.player)
-      this.player.render()
-      this.fadeColor = color(17, 14, 26);
-      this.fadeColor.setAlpha(128 + 128 * sin(millis() /
-                              3000));
-      fill(this.fadeColor);
-      rect(0, 0, 1400, 500);
-    } else if (this.level.nextLevel) {
+    if (this.level.nextLevel) {
       this.nextLevel()
     } else if (this.currentLevel == 2) {
-      //console.log(this.level.miniGame)
       if (this.level.playingMiniGame) {
         image(this.waterMove[floor(this.waterCount) %
           this.waterMove.length], 700, 0)
         this.level.miniGame.render()
         this.level.miniGame.update()
+      } else if (this.level.won) {
+        this.won = true
+        this.level.render(this.player)
+        this.player.render()
+        // this.fadeColor = color(17, 14, 26);
+        // this.fadeColor.setAlpha(128 + 128 * sin(millis() /
+        //                       3000));
+        // fill(this.fadeColor);
+        //rect(0, 0, 1400, 500);
       } else {
         this.level.render(this.player)
         this.player.render()

@@ -63,12 +63,12 @@ class Level1 {
             this.time = true
             setTimeout(this.time = false, 5000)
             if (this.time) {
-              image(this.open[floor(this.imgCount) % this.open.length], 
-                  1240, 25, 160, 230)
-              this.imgCount += 0.1
+              // image(this.open[floor(this.imgCount) % this.open.length], 
+              //     1240, 25, 160, 230)
+              // this.imgCount += 0.1
             } else {
               this.foundTunnel(player)
-              image(this.open[11], 1240, 25, 160, 230)
+              image(this.open, 1240, 25, 160, 230)
           }
         }
 

@@ -11,6 +11,7 @@ class Mushroom {
         this.time = false
         this.interacted = false
         this.mushSound = mushSound
+        this.soundPlaying = false
     }
 
 render() {
@@ -38,6 +39,7 @@ collide(ob) {
     let d = this.pos.dist(ob.pos)
     if (d < 50 && this.keyPressed()) {
       //mushSound.play()
+      //this.soundPlaying = true
       this.clicked = true;
       this.time = true;
       this.interacted = true;

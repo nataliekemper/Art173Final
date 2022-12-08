@@ -2,7 +2,7 @@ class Level2 {
   constructor(tunnel1, tunnel2, sleepHedge, sleepHedge2, madHedge,
               canvasWidth, canvasHeight, imgSize, drip,
               hedgeDrink, hedgePee, blanket, branchArray,
-              sleepMadHedge) {
+              sleepMadHedge, peeSound) {
     this.lines = []
     this.anchors = []
     this.tunnel1 = tunnel1
@@ -18,7 +18,7 @@ class Level2 {
     this.madHedgeCount = 0
     this.hatFound = false
     this.hasBlanket = false
-    this.root = true
+    this.root = false
     this.drip = drip
     this.dripCount = 0
     this.hedgeDrink = hedgeDrink
@@ -37,6 +37,7 @@ class Level2 {
     this.branchGrow3 = this.branchArray[5]
     this.branchFrameCount = 0
     this.nextLevel = false
+    this.peeSound = peeSound
 
     this.branchHedge = null
   }
@@ -49,7 +50,7 @@ class Level2 {
     player.dir = -1
 
     this.branchHedge = new PeeingHedge(this.hedgeDrink, this.hedgePee, 100, this.branchGrow1, this.branchGrow2, this.branchGrow3,
-      this.branchStatic1, this.branchStatic2, this.branchStatic3)
+      this.branchStatic1, this.branchStatic2, this.branchStatic3, this.peeSound)
     
     this.lines[0] = new Line(0, 1365, 0, 1326, 70)
     this.lines[1] = new Line(1, 1326, 70, 1257, 205)
@@ -126,6 +127,10 @@ class Level2 {
         angle = possibleAnchors[0][1]
       }
       player.reposition(pos.x, pos.y, angle)
+    }
+
+    if (this.branchHedge.numClicked >= 6) {
+      this.root = true
     }
   }
 
@@ -224,7 +229,7 @@ class Level2 {
 
 
   reachedEnd(player) {
-    if (player.pos.x < 50 && player.pos.y < 50) {
+    if (player.pos.x < 5 && player.pos.y < 0) {
       this.nextLevel = true
     }
   }

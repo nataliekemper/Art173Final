@@ -37,7 +37,10 @@ let waterMove = []
 let bub, bun
 let bubbles = []
 let bunny = []
+let chest, openChest, happyBunny
 let bunnyStuff = []
+let floatingHat
+let hat = []
 
 let origImgSize = 100
 let imgSize = 150
@@ -56,15 +59,17 @@ let level1
 let level2
 let mushrooms = []
 let opening
-let open = []
+let openn = []
 let emptyTree, endScreen
 let gameWon = false
-let mushSound, backSound
+let mushSound, backSound, peeSound
+let sounds = []
 
 
 function preload() {
   mushSound = loadSound("sounds/mushroomSound.mp3");
   backSound = loadSound("sounds/backSound.mp3");
+  peeSound = loadSound("sounds/peeSound.mp3")
   
   idleSprite = loadImage('benjaminImages/BenjaminIdleSpriteSheet.png')
   idleRightSprite = loadImage('benjaminImages/BenjiIdleRight.png')
@@ -88,6 +93,7 @@ function preload() {
   murky = loadImage('landscapes/murky.png')
   murky2 = loadImage('landscapes/murky2Final.png')
   opening = loadImage('landscapes/opening.png')
+  openn = loadImage('landscapes/open.png')
   emptyTree = loadImage('landscapes/emptyTree.png')
   tunnel = loadImage('landscapes/tunnelLevel.png')
   tunnel2 = loadImage('landscapes/tunnel2.png')
@@ -107,10 +113,14 @@ function preload() {
   fishyKey = loadImage('level3Images/fishKey.png')
   bub = loadImage('level3Images/bubbles1.png')
   bun = loadImage('level3Images/sadBunny.png')
+  chest = loadImage('level3Images/chest.png')
+  openChest = loadImage('level3Images/openChest.png')
+  happyBunny = loadImage('level3Images/happyBunny.png')
+  floatingHat = loadImage('level3Images/floatingHat.png')
 }
 
 function startGame(){
-  //backSound.play()
+  backSound.play()
   for(let i = 0; i < 12; i++){
     idle[i] = idleSprite.get(i * origImgSize, 0, origImgSize,
                              origImgSize)
@@ -139,9 +149,9 @@ function startGame(){
     mushPulse[i] = pulseMush.get(i * origImgSize, 0, origImgSize, origImgSize)
   }
   
-  for (let i = 0; i < 12; i ++) {
-    open[i] = opening.get(i * 160, 0, 160, 230)
-  }
+  // for (let i = 0; i < 12; i ++) {
+  //   openn[i] = opening.get(i * 160, 0, 160, 230)
+  // }
   
   // these 4 loops load the hedge sprites
   for (let i = 0; i < 6; i ++) {
@@ -175,6 +185,7 @@ function startGame(){
 
   for (let i = 0; i < 6; i ++) {
     bunny[i] = bun.get(i * 100, 0, 100, 100)
+    hat[i] = floatingHat.get(i * 100, 0, 100, 100)
   }
   for (let i = 0; i < 4; i ++) {
     bubbles[i] = bub.get(i * 200, 0, 200, 200)
@@ -182,6 +193,10 @@ function startGame(){
 
   bunnyStuff[0] = bunny
   bunnyStuff[1] = bubbles
+  bunnyStuff[2] = happyBunny
+  bunnyStuff[3] = chest
+  bunnyStuff[4] = openChest
+  bunnyStuff[5] = hat
 
   
   for (let i = 0; i < 21; i ++) {
@@ -202,12 +217,14 @@ function startGame(){
   branchArray[3] = branchGrow1
   branchArray[4] = branchGrow2
   branchArray[5] = branchGrow3
+
+  sounds[0] = [peeSound]
   // creating and initializing a new game
   game = new Game(idle, idleRight, leftWalk, rightWalk, 
-                  murky, murky2, idleMush, mushSprout, mushPulse, open,
+                  murky, murky2, idleMush, mushSprout, mushPulse, openn,
                   emptyTree, mushSound, backSound, tunnel, tunnel2,
                   sleepHedge, sleepHedge2, madHedge, drip, hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray,
-                  pond1, pond2, fish, fishKey, waterRipple, waterShadow, waterMove, bunnyStuff)
+                  pond1, pond2, fish, fishKey, waterRipple, waterShadow, waterMove, bunnyStuff, sounds)
   game.init()
   loop()
 }
@@ -237,7 +254,7 @@ function draw(){
 
     game.update()
     game.render()
-    gameWon = game.gameWon
+    gameWon = game.won
     
   } else if (gameWon) {
     benPos = game.player.pos.copy()
@@ -255,7 +272,7 @@ function draw(){
     game.update()
     game.render()
     
-    setTimeout(drawEndScreen, 8000)
+    setTimeout(drawEndScreen, 7000)
   
   } else {
     image(startScreen, 0, 0)
