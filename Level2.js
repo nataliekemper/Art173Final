@@ -73,7 +73,7 @@ class Level2 {
   }
   
   render() {
-    console.log(this.branchHedge.numClicked)
+    //console.log(this.branchHedge.numClicked)
     image(this.tunnel1, 700, 0)
     image(this.tunnel2, 0, 0)
     image(this.sleepHedge[floor(this.sleepHedgeCount) %
@@ -88,13 +88,7 @@ class Level2 {
 
     this.blanketOnHedge()
     this.soothMadHedge()
-
-    //this.branchHedge.mouseClickedPee()
     this.branchHedge.render()
-    //this.branchHedge.mousePressed(mouseX, mouseY)
-    //this.mouseClickedPee()
-    //this.branchCounter()
-    //this.branchGrowing()
 
   }
 
@@ -134,15 +128,6 @@ class Level2 {
       player.reposition(pos.x, pos.y, angle)
     }
   }
-
-
-  // mouseClickedPee() {
-  //   if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && mouseIsPressed) {
-  //     return true;
-  //   } else {
-  //     return false
-  //   }
-  // }
 
   branchCounter() {
     if (mouseX > 280 && mouseX < 335 && mouseY < 455 && mouseY > 415 && this.mouseReleased()) {

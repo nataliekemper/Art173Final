@@ -32,6 +32,13 @@ let pond1, pond2, fishy, fishyKey
 let fish = []
 let fishKey = []
 
+let waterRipple, waterShadow
+let waterMove = []
+let bub, bun
+let bubbles = []
+let bunny = []
+let bunnyStuff = []
+
 let origImgSize = 100
 let imgSize = 150
 let imgCount = 0
@@ -94,8 +101,12 @@ function preload() {
 
   pond1 = loadImage('level3Images/level3-1.png')
   pond2 = loadImage('level3Images/level3-2.png')
+  waterRipple = loadImage('waterImages/waterRipples.png')
+  waterShadow = loadImage('waterImages/waterShadow.png')
   fishy = loadImage('level3Images/fish.png')
   fishyKey = loadImage('level3Images/fishKey.png')
+  bub = loadImage('level3Images/bubbles1.png')
+  bun = loadImage('level3Images/sadBunny.png')
 }
 
 function startGame(){
@@ -157,8 +168,22 @@ function startGame(){
     branchGrow2[i] = grow2.get(i * 300, 0, 300, 250)
     branchGrow3[i] = grow3.get(i * 300, 0, 300, 250)
   }
-  
 
+  for (let i = 0; i < 5; i ++) {
+    waterMove[i] = waterRipple
+  }
+
+  for (let i = 0; i < 6; i ++) {
+    bunny[i] = bun.get(i * 100, 0, 100, 100)
+  }
+  for (let i = 0; i < 4; i ++) {
+    bubbles[i] = bub.get(i * 200, 0, 200, 200)
+  }
+
+  bunnyStuff[0] = bunny
+  bunnyStuff[1] = bubbles
+
+  
   for (let i = 0; i < 21; i ++) {
     drip[i] = drippy.get(i * 150, 0, 150, 200)
   }
@@ -182,7 +207,7 @@ function startGame(){
                   murky, murky2, idleMush, mushSprout, mushPulse, open,
                   emptyTree, mushSound, backSound, tunnel, tunnel2,
                   sleepHedge, sleepHedge2, madHedge, drip, hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray,
-                  pond1, pond2, fish, fishKey)
+                  pond1, pond2, fish, fishKey, waterRipple, waterShadow, waterMove, bunnyStuff)
   game.init()
   loop()
 }

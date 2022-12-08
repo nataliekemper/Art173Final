@@ -1,7 +1,7 @@
 const TOTAL_FISH = 6
 
 class MiniGame {
-    constructor(fish, fishKey) {
+    constructor(fish, fishKey, waterRipple, waterShadow) {
         this.fishPhoto = fish
         this.fishKey = fishKey
         this.keyFish = null
@@ -9,6 +9,8 @@ class MiniGame {
         this.gameOver = false
         this.gotKey = false
         this.color = [170, 135, 176]
+        this.waterRipple = waterRipple
+        this.waterShadow = waterShadow
     }
 
 init() {
@@ -20,13 +22,15 @@ init() {
 
 render() {
     background(this.color[0], this.color[1], this.color[2])
+    image(this.waterShadow, 700, 0)
 }
 
 update() {
+    //image(this.waterRipple, 700, 0)
     this.fishKey.mouseClicked()
     if (this.fishKey.clicked) {
         this.gameOver = true
-        console.log("GAME OVER")
+        this.gotKey = true
     }
 
     // Render the randomly generated fish

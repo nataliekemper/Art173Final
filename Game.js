@@ -1,7 +1,8 @@
 class Game {
     constructor(idle, idleRight, leftWalk, rightWalk, backdrop1, backdrop2, idleMush, 
       mushSprout, mushPulse, open, emptyTree, mushSound, backSound, tunnel1, tunnel2, sleepHedge, sleepHedge2, madHedge, drip,
-      hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray, pond1, pond2, fish, fishKey){
+      hedgeDrink, hedgePee, sleepMadHedge, blanket, branchArray, pond1, pond2, fish, fishKey, waterRipple, waterShadow,
+      waterMove, bunnyStuff){
     this.player = null
     this.levels = []
     this.level = null
@@ -41,6 +42,11 @@ class Game {
     this.pond2 = pond2
     this.fish = fish
     this.fishKey = fishKey
+    this.waterRipple = waterRipple
+    this.waterShadow = waterShadow
+    this.waterMove = waterMove
+    this.waterCount = 0
+    this.bunnyStuff = bunnyStuff
   }
   
   init(){
@@ -63,7 +69,8 @@ class Game {
                                 this.hedgePee, this.blanket, this.branchArray,
                                 this.sleepMadHedge)
 
-    this.levels[2] = new Level3(this.pond1, this.pond2, this.fish, this.fishKey)
+    this.levels[2] = new Level3(this.pond1, this.pond2, this.fish, this.fishKey, 
+                                this.waterRipple, this.waterShadow,  this.bunnyStuff)
 
     this.levels[0].init()
     //this.levels[1].init(this.player)
@@ -93,6 +100,8 @@ class Game {
     } else if (this.currentLevel == 2) {
       //console.log(this.level.miniGame)
       if (this.level.playingMiniGame) {
+        image(this.waterMove[floor(this.waterCount) %
+          this.waterMove.length], 700, 0)
         this.level.miniGame.render()
         this.level.miniGame.update()
       } else {
@@ -108,6 +117,7 @@ class Game {
   update(){
     this.player.update()
     this.level.update(this.player)
+    this.waterCount += 0.15
   }
   
   drawEndScreen() {

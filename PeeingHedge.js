@@ -26,14 +26,15 @@ render() {
     image(this.hedgePee[floor(this.hedgeDrinkCount) %
         this.hedgePee.length], this.x, this.y, this.size, this.size)
 
-        if (this.numClicked == 0) {
-            let x = 10
+        if (this.numClicked == 0 || this.numClicked == 1 ||
+            this.numClicked == 2) {
 
-        } else if (this.numClicked == 1) {
+        } else if (this.numClicked == 3) {
             image(this.branchGrow1[floor(this.branchFrameCount) %
                 this.branchGrow1.length], 200, 250, 300, 250)
-
-        } else if (this.numClicked == 2) {
+        } else if (this.numClicked == 4) {
+            image(this.branchStatic1, 200, 250, 300, 250)
+        } else if (this.numClicked == 5) {
             image(this.branchGrow2[floor(this.branchFrameCount) %
                 this.branchGrow2.length], 200, 250, 300, 250)
 
@@ -46,13 +47,14 @@ render() {
     image(this.hedgeDrink[floor(this.hedgeDrinkCount) %
         this.hedgeDrink.length], this.x, this.y, this.size, this.size)
     
-        if (this.numClicked == 0) {
+        if (this.numClicked == 0 || this.numClicked == 1 ||
+            this.numClicked == 2 || this.numClicked == 4) {
             //console.log("no branch")
 
-        } else if (this.numClicked == 1) {
+        } else if (this.numClicked == 3) {
             image(this.branchStatic1, 200, 250, 300, 250)
 
-        } else if (this.numClicked == 2) {
+        } else if (this.numClicked == 5) {
             image(this.branchStatic2, 200, 250, 300, 250)
 
         } else {
